@@ -9,6 +9,8 @@ defmodule Day1 do
     {3, 7}
     iex> Day1.complement([3, 4, 5, 6], 9)
     {3, 6}
+    iex> Day1.complement([2, 4, 5, 6], 9)
+    {4, 5}
     iex> Day1.complement([3, 8], 10)
     {}
   """
