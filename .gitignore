@@ -24,3 +24,4 @@ aoc_2020_elixir-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+*.swp
