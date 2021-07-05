@@ -1,6 +1,29 @@
 defmodule Day1 do
 
   @doc """
+  Finds the three numbers in a list that add up to sum
+  
+  ## Examples
+    iex> Day1.three_sum([1, 2, 3, 5], 6)
+    {1, 2, 3}
+    iex> Day1.three_sum([1, 2], 6)
+    {}
+    iex> Day1.three_sum([1, 4, 2, 3], 6)
+    {1, 2, 3}
+    iex> Day1.three_sum([1, 2, 5, 7], 9)
+    {}
+  """
+  def three_sum([], _sum) do {} end
+  def three_sum([head | tail], sum) do
+    complement = Day1.complement(tail, sum - head)
+    case complement do 
+      {b, c} -> {head, b, c}
+      {} -> {}
+    end
+  end
+
+
+  @doc """
   Finds the additive complement of the number and sum
   ## Examples
     iex> Day1.complement(3, 10)
