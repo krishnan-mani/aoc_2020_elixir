@@ -1,5 +1,6 @@
 defmodule Day3Test do
   use ExUnit.Case
+  use ExUnit.Parameterized
   doctest Day3
 
   describe "For the given landscape" do
@@ -20,15 +21,15 @@ defmodule Day3Test do
       {:ok, %{grid: grid}}
     end
 
-    test "following a slope of right 3, down 1; one counts seven trees for the grid", %{grid: grid} do
-      slope = %{right: 3, down: 1}
-      assert Day3.count_trees(grid, slope) == 7
+    test_with_params "following different slopes; one counts the expected number of trees", context,
+                     fn (grid, slope, expected) ->
+                       assert Day3.count_trees(grid, slope) == expected
+                     end
+      do
+      [
+        {context.grid, %{right: 3, down: 1}, 7}
+      ]
     end
-
-    test "following different slopes; one counts the expected number of trees", %{grid: grid} do
-
-    end
-
   end
 
 end
