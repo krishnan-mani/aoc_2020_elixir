@@ -18,19 +18,40 @@ defmodule Day3 do
   end
 
   @doc """
-    Reveals current position on grid after a move down
+  Reveals current position on grid after a move down
 
-      iex> start_position = %{right: 0, down: 0}
-      %{right: 0, down: 0}
-      iex> start_position |> Day3.advance(%{right: 3, down: 1})
-      %{right: 3, down: 1}
-      iex> start_position |> Day3.advance(%{right: 3, down: 1}) |> Day3.advance(%{right: 3, down: 1})
-      %{right: 6, down: 2}
+    iex> start_position = %{right: 0, down: 0}
+    %{right: 0, down: 0}
+    iex> start_position |> Day3.advance(%{right: 3, down: 1})
+    %{right: 3, down: 1}
+    iex> start_position |> Day3.advance(%{right: 3, down: 1}) |> Day3.advance(%{right: 3, down: 1})
+    %{right: 6, down: 2}
   """
   def advance(position, %{right: right, down: down}) do
     new_right = position.right + right
     new_down = position.down + down
     %{right: new_right, down: new_down}
+  end
+
+  @doc """
+  Advances to the next position in the grid as per slope (when possible),
+  and reports whether a tree was found at the position
+
+    iex> grid = [ ".##.", "..##..#", "..##..##."]
+    iex> slope = %{right: 3, down: 1}
+    iex> %{right: 0, down: 0} |> Day3.advance_to_tree?(grid, slope)
+    {:ok, %{position: %{right: 3, down: 1}, tree: true}}
+    iex> slope = %{right: 3, down: 3}
+    iex> %{right: 0, down: 0} |> Day3.advance_to_tree?(grid, slope)
+    {:error, %{position: %{right: 3, down: 3}}}
+  """
+  def advance_to_tree?(position, grid, slope) do
+    %{right: right, down: down} = position |> Day3.advance(slope)
+    line = Enum.at(grid, down)
+    case line do
+      nil -> {:error, %{position: %{right: right, down: down}}}
+      _ -> {:ok, %{position: %{right: right, down: down}, tree: Day3.tree?(line, right)}}
+    end
   end
 
   @doc """
@@ -43,21 +64,17 @@ defmodule Day3 do
     2
   """
   def count_trees(grid, slope) do
-    grid_height = Enum.count(grid)
     acc = %{position: %{right: 0, down: 0}, count: 0}
-    Enum.reduce_while(0..(grid_height - 2), acc,
-      fn _idx, %{position: position, count: count} ->
-        %{right: right, down: down} = position |> Day3.advance(slope)
-        if down < grid_height do
-          line = Enum.at(grid, down)
-          count = if Day3.tree?(line, right) do
-            count + 1
-          else
-            count
-          end
-          {:cont, %{position: %{right: right, down: down}, count: count}}
-        else
-          {:halt, %{count: count}}
+    Enum.reduce_while(grid, acc,
+      fn _line, %{position: position, count: count} ->
+        {result, outcome} = position |> Day3.advance_to_tree?(grid, slope)
+        case result do
+          :error -> {:halt, %{count: count}}
+          _ -> {:cont, %{position: outcome.position,
+            count: case outcome.tree do
+              true -> count + 1
+              false -> count
+            end}}
         end
       end
     ).count
