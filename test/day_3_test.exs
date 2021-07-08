@@ -34,6 +34,11 @@ defmodule Day3Test do
       ]
     end
 
+    test "count trees, advancing two rows at a time", %{grid: grid} do
+      slope = %{right: 1, down: 2}
+      assert Day3.count_trees(grid, slope) == 2
+    end
+
   end
 
 end

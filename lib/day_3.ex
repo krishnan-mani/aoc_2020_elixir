@@ -45,16 +45,20 @@ defmodule Day3 do
   def count_trees(grid, slope) do
     grid_height = Enum.count(grid)
     acc = %{position: %{right: 0, down: 0}, count: 0}
-    Enum.reduce(0..(grid_height - 2), acc,
+    Enum.reduce_while(0..(grid_height - 2), acc,
       fn _idx, %{position: position, count: count} ->
-        new_position = position |> Day3.advance(slope)
-        line = Enum.at(grid, new_position.down)
-        index = new_position.right
-        new_count = case Day3.tree?(line, index) do
-          true -> count + 1
-          false -> count
+        %{right: right, down: down} = position |> Day3.advance(slope)
+        if down < grid_height do
+          line = Enum.at(grid, down)
+          count = if Day3.tree?(line, right) do
+            count + 1
+          else
+            count
+          end
+          {:cont, %{position: %{right: right, down: down}, count: count}}
+        else
+          {:halt, %{count: count}}
         end
-        %{position: new_position, count: new_count}
       end
     ).count
   end
