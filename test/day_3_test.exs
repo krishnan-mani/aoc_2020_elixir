@@ -21,7 +21,7 @@ defmodule Day3Test do
       {:ok, %{grid: grid}}
     end
 
-    test_with_params "following different slopes; one counts the expected number of trees, advancing only one row at a time", context,
+    test_with_params "following different slopes; one counts the expected number of trees, advancing down one at a time", context,
                      fn (grid, slope, expected) ->
                        assert Day3.count_trees(grid, slope) == expected
                      end
@@ -33,6 +33,7 @@ defmodule Day3Test do
         {context.grid, %{right: 7, down: 1}, 4},
       ]
     end
+
   end
 
 end
