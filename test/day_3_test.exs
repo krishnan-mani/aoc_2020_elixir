@@ -2,8 +2,8 @@ defmodule Day3Test do
   use ExUnit.Case
   doctest Day3
 
-  describe "following a slope of right 3, down 1" do
-    test "one counts seven trees for the grid" do
+  describe "For the given landscape" do
+    setup do
       grid = [
         "..##.........##.........##.........##.........##.........##.......",
         "#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..",
@@ -17,8 +17,16 @@ defmodule Day3Test do
         "#...##....##...##....##...##....##...##....##...##....##...##....#",
         ".#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#"
       ]
+      {:ok, %{grid: grid}}
+    end
+
+    test "following a slope of right 3, down 1; one counts seven trees for the grid", %{grid: grid} do
       slope = %{right: 3, down: 1}
       assert Day3.count_trees(grid, slope) == 7
+    end
+
+    test "following different slopes; one counts the expected number of trees", %{grid: grid} do
+
     end
 
   end
