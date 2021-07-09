@@ -11,10 +11,7 @@ defmodule Day4 do
                |> Enum.map(&String.trim/1)
     Map.new(Enum.map(elements, fn x ->
       [key_str, value_str] = String.split(x, ":")
-      value = case String.ends_with?(key_str, "yr") do
-        true -> String.to_integer(value_str)
-        _ -> value_str
-      end
+      value = if String.ends_with?(key_str, "yr") do String.to_integer(value_str) else value_str end
       {String.to_atom(key_str), value}
     end))
   end

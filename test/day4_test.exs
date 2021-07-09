@@ -1,5 +1,5 @@
 defmodule Day4Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   use ExUnit.Parameterized
   doctest Day4
 
