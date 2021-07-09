@@ -71,10 +71,8 @@ defmodule Day3 do
         case result do
           :error -> {:halt, %{count: count}}
           _ -> {:cont, %{position: outcome.position,
-            count: case outcome.tree do
-              true -> count + 1
-              false -> count
-            end}}
+            count: if outcome.tree do count + 1 else count end
+            }}
         end
       end
     ).count
