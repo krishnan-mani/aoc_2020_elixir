@@ -127,9 +127,8 @@ defmodule Day4 do
     iex> Day4.valid_eye_color?("wat")
     false
   """
-  def valid_eye_color?(eye_color_str) do
-    Enum.member?(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], eye_color_str)
-  end
+  def valid_eye_color?(eye_color_str) when eye_color_str in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], do: true
+  def valid_eye_color?(eye_color_str) do false end
 
   @doc """
   Validate passport ID
