@@ -90,9 +90,9 @@ defmodule Day4 do
     end
     value = String.slice(height_str, 0..-3//1) |> String.to_integer
     case unit do
-      :unknown -> false
-      :cm -> value >= 150 && value <= 193
-      :in -> value >= 59 && value <= 76
+      :cm when value in 150..193 -> true
+      :in when value in 59..76 -> true
+      _ -> false
     end
   end
 
@@ -128,7 +128,7 @@ defmodule Day4 do
     false
   """
   def valid_eye_color?(eye_color_str) when eye_color_str in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], do: true
-  def valid_eye_color?(eye_color_str) do false end
+  def valid_eye_color?(eye_color_str), do: false
 
   @doc """
   Validate passport ID
