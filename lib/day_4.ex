@@ -33,6 +33,32 @@ defmodule Day4 do
   end
 
   @doc """
+  Validates passport fields fully
+    iex> valid_passport = Day4.parse_passport("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f")
+    iex> Day4.fully_valid_passport?(valid_passport)
+    true
+  """
+  def fully_valid_passport?(passport) do
+    unless Day4.valid_passport?(passport) do
+      false
+    else
+      Enum.all?(passport, fn {key, value} ->
+        case key do
+          :byr -> valid_birth_year?(value)
+          :iyr -> valid_issue_year?(value)
+          :eyr -> valid_expiration_year?(value)
+          :hgt -> valid_height?(value)
+          :hcl -> valid_hair_color?(value)
+          :ecl -> valid_eye_color?(value)
+          :pid -> valid_passport_ID?(value)
+          :cid -> true
+          _ -> false
+        end
+      end)
+    end
+  end
+
+  @doc """
   Validates birth year
     iex> Day4.valid_birth_year?(1920)
     true
