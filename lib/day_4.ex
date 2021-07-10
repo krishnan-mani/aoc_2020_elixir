@@ -71,9 +71,8 @@ defmodule Day4 do
   def valid_birth_year?(year) do valid_year?(year, 1920, 2002) end
   def valid_issue_year?(year) do valid_year?(year, 2010, 2020) end
   def valid_expiration_year?(year) do valid_year?(year, 2020, 2030) end
-  defp valid_year?(year, lower, upper) do
-    unless year < lower or year > upper do true else false end
-  end
+  defp valid_year?(year, lower, upper) when year < lower or year > upper do false end
+  defp valid_year?(_year, _lower, _upper) do true end
 
   @doc """
   Validate height
