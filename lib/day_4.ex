@@ -37,6 +37,9 @@ defmodule Day4 do
     iex> valid_passport = Day4.parse_passport("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f")
     iex> Day4.fully_valid_passport?(valid_passport)
     true
+    iex> invalid_passport = Day4.parse_passport("eyr:1972 cid:100 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926")
+    iex> Day4.fully_valid_passport?(invalid_passport)
+    false
   """
   def fully_valid_passport?(passport) do
     unless Day4.valid_passport?(passport) do
