@@ -68,4 +68,27 @@ defmodule Day4 do
     end
   end
 
+  @doc """
+  Validate hair colour
+  # hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+    iex> Day4.valid_hair_color?("#123abc")
+    true
+    iex> Day4.valid_hair_color?("#123abz")
+    false
+    iex> Day4.valid_hair_color?("123abc")
+    false
+  """
+  def valid_hair_color?(hair_color_str) do
+    case String.split(hair_color_str, "#") do
+      ["", value] ->
+        if String.length(value) == 6 do
+          allowed_chars = [?0, ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?a, ?b, ?c, ?d, ?e, ?f]
+          Enum.all?(String.to_charlist(value), fn x -> Enum.member?(allowed_chars, x) end)
+        else
+          false
+        end
+      _ -> false
+    end
+  end
+
 end
