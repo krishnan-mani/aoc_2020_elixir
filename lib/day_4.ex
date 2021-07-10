@@ -2,7 +2,7 @@ defmodule Day4 do
 
   @doc """
   Parses passport line broken over multiple lines
-"""
+  """
   def parse_passport(str) do
     elements = str
                |> String.split(" ")
@@ -30,6 +30,20 @@ defmodule Day4 do
       [:cid] -> true
       _ -> false
     end
+  end
+
+  @doc """
+  Validates birth year
+    iex> Day4.valid_birth_year?(1920)
+    true
+    iex> Day4.valid_birth_year?(2003)
+    false
+  """
+  def valid_birth_year?(year) do valid_year?(year, 1920, 2002) end
+  def valid_issue_year?(year) do valid_year?(year, 2010, 2020) end
+  def valid_expiration_year?(year) do valid_year?(year, 2020, 2030) end
+  defp valid_year?(year, lower, upper) do
+    unless year < lower or year > upper do true else false end
   end
 
 end
