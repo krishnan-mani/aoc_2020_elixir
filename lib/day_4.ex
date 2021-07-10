@@ -91,4 +91,34 @@ defmodule Day4 do
     end
   end
 
+  @doc """
+  Validate eye color
+  # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+    iex> Day4.valid_eye_color?("amb")
+    true
+    iex> Day4.valid_eye_color?("wat")
+    false
+  """
+  def valid_eye_color?(eye_color_str) do
+    Enum.member?(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], eye_color_str)
+  end
+
+  @doc """
+  Validate passport ID
+    iex> Day4.valid_passport_ID?("000000001")
+    true
+    iex> Day4.valid_passport_ID?("0123456789")
+    false
+  """
+  def valid_passport_ID?(pid) do
+    if String.length(pid) == 9 do
+      case Integer.parse(pid) do
+        :error -> false
+        _ -> true
+      end
+    else
+      false
+    end
+  end
+
 end
