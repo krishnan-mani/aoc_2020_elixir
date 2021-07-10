@@ -46,4 +46,26 @@ defmodule Day4 do
     unless year < lower or year > upper do true else false end
   end
 
+  @doc """
+  Validate height
+  #  hgt (Height) - a number followed by either cm or in:
+  #  If cm, the number must be at least 150 and at most 193.
+  #  If in, the number must be at least 59 and at most 76.
+    iex> Day4.valid_height?("150cm")
+    true
+  """
+  def valid_height?(height_str) do
+    unit = case String.slice(height_str, -2, 2) do
+      "cm" -> :cm
+      "in" -> :in
+      _ -> :unknown
+    end
+    value = String.slice(height_str, 0..-3//1) |> String.to_integer
+    case unit do
+      :unknown -> false
+      :cm -> value >= 150 && value <= 193
+      :in -> value >= 59 && value <= 76
+    end
+  end
+
 end
