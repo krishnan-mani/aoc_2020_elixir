@@ -128,7 +128,7 @@ defmodule Day4 do
     false
   """
   def valid_eye_color?(eye_color_str) when eye_color_str in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], do: true
-  def valid_eye_color?(eye_color_str), do: false
+  def valid_eye_color?(_eye_color_str), do: false
 
   @doc """
   Validate passport ID
