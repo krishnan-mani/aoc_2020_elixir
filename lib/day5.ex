@@ -29,6 +29,21 @@ defmodule Day5 do
   end
 
   @doc """
+  Get column
+    iex> Day5.column('RLR')
+    5
+  """
+  def column(column_charlist) do
+    range = 0..(Integer.pow(2, Enum.count(column_charlist)) - 1)
+    Enum.reduce(column_charlist, range, fn selection, range ->
+      range = case selection do
+        ?R -> range |> bisect(:upper)
+        ?L -> range |> bisect(:lower)
+      end
+    end).first
+  end
+
+  @doc """
   Get row number
     iex> Day5.row('FBFBBFF')
     44
@@ -42,6 +57,5 @@ defmodule Day5 do
       end
     end).first
   end
-
 
 end
