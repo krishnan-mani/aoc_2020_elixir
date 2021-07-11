@@ -2,13 +2,26 @@ defmodule Day5 do
 
   @doc """
   Bisect a range and return the upper or lower half
-    iex> Day5.bisect(0..127, :lower)
+    iex> range = 0..127
+    iex> range = range |> Day5.bisect(:lower)
     0..63
-    iex> Day5.bisect(0..63, :upper)
+    iex> range = range |> Day5.bisect(:upper)
     32..63
+    iex> range = range |> Day5.bisect(:lower)
+    32..47
+    iex> range = range |> Day5.bisect(:upper)
+    40..47
+    iex> range = range |> Day5.bisect(:upper)
+    44..47
+    iex> range = range |> Day5.bisect(:lower)
+    44..45
+    iex> lower_bound = range |> Day5.bisect(:lower)
+    44..44
+    iex> upper_bound = range |> Day5.bisect(:upper)
+    45..45
   """
   def bisect(first..last = range, half) do
-    midpoint = div(last - first, 2)
+    midpoint = first + div(last - first, 2)
     case half do
       :upper -> midpoint + 1..last
       :lower -> first..midpoint
