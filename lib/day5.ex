@@ -29,6 +29,19 @@ defmodule Day5 do
   end
 
   @doc """
+  Get seat ID
+    iex> Day5.seat_ID("BFFFBBFRRR")
+    567
+    iex> Day5.seat_ID("FFFBBBFRRR")
+    119
+  """
+  def seat_ID(boarding_pass) do
+    row_charlist = String.slice(boarding_pass, 0, 7) |> to_charlist
+    column_charlist = String.slice(boarding_pass, -3, 3) |> to_charlist
+    (row(row_charlist) * 8) + column(column_charlist)
+  end
+
+  @doc """
   Get column
     iex> Day5.column('RLR')
     5
