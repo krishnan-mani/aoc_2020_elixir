@@ -58,7 +58,7 @@ defmodule Day5 do
   defp converge(chrlist, greater_selector, lesser_selector) do
     range = 0..(Integer.pow(2, Enum.count(chrlist)) -1)
     Enum.reduce(chrlist, range, fn selection, range ->
-      range = case selection do
+      case selection do
         ^greater_selector -> range |> bisect(:greater)
         ^lesser_selector -> range |> bisect(:lesser)
       end
