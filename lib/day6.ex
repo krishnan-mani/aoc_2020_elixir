@@ -3,27 +3,30 @@ defmodule Day6 do
   @doc ~S"""
   Group responses into questions answered
 
-    iex> "abc" |> Day6.group_response
+    iex> "abc" |> Day6.unique_group_responses
     'abc'
-    iex> "abca" |> Day6.group_response
+    iex> "abca" |> Day6.unique_group_responses
     'abc'
-    iex> "abc\nab" |> Day6.group_response
+    iex> "abc\nab" |> Day6.unique_group_responses
     'abc'
-    iex> "abc\nab\ncba" |> Day6.group_response
+    iex> "abc\nab\ncba" |> Day6.unique_group_responses
     'abc'
   """
-  def group_response(str) do
-    case str |> String.split("\n") do
-      [x] -> to_charlist(x) |> unique_responses()
-      [hd | tl] = lst -> tl
-                         |> Enum.reduce(hd, fn x, acc -> acc <> x end)
-                         |> to_charlist()
-                         |> unique_responses()
+  def unique_group_responses(str) do
+    case str
+         |> String.split("\n") do
+      [x] -> x |> unique_responses()
+      [hd | tl] -> tl
+                   |> Enum.reduce(hd, fn x, acc -> acc <> x end)
+                   |> unique_responses()
     end
   end
 
-  def unique_responses(chr_list) do
-    chr_list |> Enum.sort |> Enum.dedup
+  def unique_responses(str) do
+    str
+    |> to_charlist()
+    |> Enum.sort()
+    |> Enum.dedup()
   end
 
 end
