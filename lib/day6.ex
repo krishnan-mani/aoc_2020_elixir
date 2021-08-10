@@ -29,4 +29,29 @@ defmodule Day6 do
     |> Enum.dedup()
   end
 
+  @doc ~S"""
+  Common responses from a group
+
+    iex> "abc" |> Day6.common_responses()
+    'abc'
+    iex> "ab\nac" |> Day6.common_responses()
+    'a'
+    iex> "a\nb\nc" |> Day6.common_responses()
+    ''
+    iex> "a\na\na\na" |> Day6.common_responses()
+    'a'
+    iex> "a" |> Day6.common_responses()
+    'a'
+    iex> "cba\nab\nc" |> Day6.common_responses()
+    ''
+  """
+  def common_responses(str) do
+    case str |> String.split("\n") do
+      [x] -> unique_responses(x)
+      [hd | tl] -> tl |> Enum.reduce(unique_responses(hd),
+             fn x, acc -> to_charlist(acc) |> Enum.filter(fn chr -> chr in to_charlist(x) end)
+             end)
+    end
+  end
+
 end
