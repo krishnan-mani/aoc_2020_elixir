@@ -1,6 +1,5 @@
 defmodule Day5Test do
-  use ExUnit.Case
-  @moduletag :capture_log
+  use ExUnit.Case, async: true
   doctest Day5
 
 end
