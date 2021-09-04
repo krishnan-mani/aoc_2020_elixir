@@ -4,16 +4,19 @@ defmodule Day7 do
   @doc """
   Read rule and construct model for bags that contain other bags
 
-    iex> light_red_rule = "light red bags contain 1 bright white bag, 2 muted yellow bags"
-    iex> %{} |> Day7.process_rule(light_red_rule)
+    iex> light_red_rule = "light red bags contain 1 bright white bag, 2 muted yellow bags."
+    iex> Day7.process_rule(light_red_rule, %{})
     %{"light red" => ["bright white", "muted yellow"]}
   """
-  def process_rule(model, rule) do
+  def process_rule(rule, model) do
     [container_str, contained_str] = String.split(rule, " contain ")
     container_colour = Day7.read_container_colour(container_str)
-    content_colours = contained_str
-                      |> String.split(",")
-                      |> Enum.map(&Day7.read_contained_colour/1)
+    content_colours = case String.starts_with?(contained_str, "no") do
+      true -> []
+      false -> contained_str
+               |> String.split(",")
+               |> Enum.map(&Day7.read_contained_colour/1)
+    end
     Map.put(model, container_colour, content_colours)
   end
 
