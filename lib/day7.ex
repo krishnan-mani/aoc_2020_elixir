@@ -2,6 +2,25 @@ defmodule Day7 do
   @moduledoc false
 
   @doc """
+  Count bags that can eventually contain shiny gold bags
+  """
+  def count_container_colours(model, colour \\ "shiny gold") do
+    Enum.count(model, fn {container_colour, _} -> Day7.contains_colour?(container_colour, model, colour) end)
+  end
+
+  @doc """
+  Establishes whether a bag can directly contain another
+
+    iex> model = %{"bright white" => ["shiny gold"]}
+    iex> Day7.contains_colour?("bright white", model)
+    true
+  """
+  def contains_colour?(container_colour, model, contained_colour \\ "shiny gold") do
+    sub_colours = Map.get(model, container_colour)
+    (contained_colour in sub_colours) or Enum.any?(sub_colours, fn colour -> contains_colour?(colour, model, contained_colour) end)
+  end
+
+  @doc """
   Read rule and construct model for bags that contain other bags
 
     iex> light_red_rule = "light red bags contain 1 bright white bag, 2 muted yellow bags."

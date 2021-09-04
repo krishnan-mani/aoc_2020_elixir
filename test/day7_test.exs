@@ -30,8 +30,8 @@ defmodule Day7Test do
     end
   end
 
-  describe "parse specified rules" do
-    test "constructs model of bag colours and colours they can contain" do
+  describe "count bag colours that can contain shiny gold bags" do
+    test "finds both bags that can directly and indirectly contain shiny gold bags" do
       rules = """
       light red bags contain 1 bright white bag, 2 muted yellow bags.
       dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -60,6 +60,8 @@ defmodule Day7Test do
                "shiny gold" => ["dark olive", "vibrant plum"],
                "vibrant plum" => ["faded blue", "dotted black"]
              }
+
+      assert Day7.count_container_colours(model) == 4
     end
   end
 end
