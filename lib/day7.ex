@@ -67,6 +67,27 @@ defmodule Day7 do
     |> String.slice(2..-1//1)
   end
 
+  @doc """
+    Read count of contained bags by colour
+
+    iex> Day7.read_contained_bag_count("1 bright white bag")
+    {"bright white", 1}
+    iex> Day7.read_contained_bag_count(" 2 muted yellow bags")
+    {"muted yellow", 2}
+    iex> Day7.read_contained_bag_count(" no other bags.")
+    {}
+  """
+  def read_contained_bag_count(str) do
+    [count_str | colour_str] = str |> String.trim() |> String.split(" ")
+    case count_str do
+      "no" -> {}
+       _ -> count = String.to_integer(count_str)
+                  [hue, shade | _] = colour_str
+                   colour = "#{hue} #{shade}"
+                   {colour, count}
+    end
+  end
+
 end
 
 
