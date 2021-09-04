@@ -15,12 +15,12 @@ defmodule Day5 do
     44..47
     iex> range = range |> Day5.bisect(:lesser)
     44..45
-    iex> lesser_bound = range |> Day5.bisect(:lesser)
+    iex> range |> Day5.bisect(:lesser)
     44..44
-    iex> greater_bound = range |> Day5.bisect(:greater)
+    iex> range |> Day5.bisect(:greater)
     45..45
   """
-  def bisect(first..last = range, half) do
+  def bisect(first..last, half) do
     midpoint = first + div(last - first, 2)
     case half do
       :greater -> (midpoint + 1)..last
@@ -57,12 +57,13 @@ defmodule Day5 do
 
   defp converge(chrlist, greater_selector, lesser_selector) do
     range = 0..(Integer.pow(2, Enum.count(chrlist)) -1)
-    Enum.reduce(chrlist, range, fn selection, range ->
+    converged..converged = Enum.reduce(chrlist, range, fn selection, range ->
       case selection do
         ^greater_selector -> range |> bisect(:greater)
         ^lesser_selector -> range |> bisect(:lesser)
       end
-    end).first
+    end)
+    converged
   end
 
 end
