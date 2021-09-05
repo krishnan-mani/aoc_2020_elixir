@@ -5,21 +5,21 @@ defmodule Day8 do
   given the instruction index, and the accumulator,
   returns the next instruction index and accumulator for different instructions
 
-    iex> Day8.process(:nop, 12, 7)
+    iex> Day8.process({:nop, 5}, 12, 7)
     %{index: 13, acc: 7}
     iex> Day8.process({:jmp, 4}, 12, 7)
     %{index: 16, acc: 7}
     iex> Day8.process({:acc, 2}, 12, 7)
     %{index: 13, acc: 9}
   """
-  def process(:nop, index, acc), do: %{index: index + 1, acc: acc}
+  def process({:nop, _}, index, acc), do: %{index: index + 1, acc: acc}
   def process({:jmp, jump_by}, index, acc), do: %{index: index + jump_by, acc: acc}
   def process({:acc, inc_by}, index, acc), do: %{index: index + 1, acc: acc + inc_by}
 
   @doc """
   Process instructions until loop
 
-    iex> no_loop_instructions = [{:acc, 1}, :nop, {:jmp, 2}, :nop, :nop, {:acc, 2}]
+    iex> no_loop_instructions = [{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:nop, 1}, {:nop, 2}, {:acc, 2}]
     iex> Day8.process_instructions(no_loop_instructions)
     3
   """
@@ -38,8 +38,8 @@ defmodule Day8 do
   @doc """
   Parse instruction line
 
-    iex> Day8.parse_instruction("nop +0")
-    :nop
+    iex> Day8.parse_instruction("nop +7")
+    {:nop, 7}
     iex> Day8.parse_instruction("jmp +12")
     {:jmp, 12}
     iex> Day8.parse_instruction("acc -7")
@@ -47,10 +47,7 @@ defmodule Day8 do
   """
   def parse_instruction(str) do
     [cmd_str, number_str] = String.split(str, " ")
-    case cmd_str do
-      "nop" -> :nop
-      _ -> {String.to_atom(cmd_str), String.to_integer(number_str)}
-    end
+    {String.to_atom(cmd_str), String.to_integer(number_str)}
   end
 
 end
