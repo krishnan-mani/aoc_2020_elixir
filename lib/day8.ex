@@ -46,13 +46,10 @@ defmodule Day8 do
     {:acc, -7}
   """
   def parse_instruction(str) do
-    number = String.split(str, " ")
-             |> List.last()
-             |> String.to_integer()
-    case String.slice(str, 0, 3) do
+    [cmd_str, number_str] = String.split(str, " ")
+    case cmd_str do
       "nop" -> :nop
-      "jmp" -> {:jmp, number}
-      "acc" -> {:acc, number}
+      _ -> {String.to_atom(cmd_str), String.to_integer(number_str)}
     end
   end
 
