@@ -43,7 +43,18 @@ defmodule Day7Test do
       faded blue bags contain no other bags.
       dotted black bags contain no other bags.
       """
-      %{rules: rules}
+
+      more_rules = """
+      shiny gold bags contain 2 dark red bags.
+      dark red bags contain 2 dark orange bags.
+      dark orange bags contain 2 dark yellow bags.
+      dark yellow bags contain 2 dark green bags.
+      dark green bags contain 2 dark blue bags.
+      dark blue bags contain 2 dark violet bags.
+      dark violet bags contain no other bags.
+      """
+
+      %{rules: rules, more_rules: more_rules}
     end
 
     test "builds up a model of bag colours and number of other bags they contain", %{rules: rules} do
@@ -79,6 +90,16 @@ defmodule Day7Test do
         "vibrant plum" => [{"faded blue", 5}, {"dotted black", 6}]
       }
       assert 32 == Day7.count_bags("shiny gold", model) - 1
+    end
+
+    test "process rules and count bags contained in shiny gold bag", %{more_rules: more_rules} do
+      model = more_rules
+              |> String.split("\n")
+              |> Stream.map(&String.trim/1)
+              |> Stream.reject(fn str -> String.length(str) == 0 end)
+              |> Enum.reduce(%{}, fn rule, acc -> Day7.process_bag_counts(rule, acc) end)
+
+      assert 126 == Day7.count_bags("shiny gold", model) - 1
     end
 
     test "finds both bags that can directly and indirectly contain shiny gold bags", %{rules: rules} do
