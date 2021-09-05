@@ -1,6 +1,26 @@
 defmodule Day7 do
   @moduledoc false
 
+  @count """
+  Count all bags in model
+  """
+  def total_bag_count(model) do
+    Enum.reduce(model, 0, fn {colour, _}, acc -> acc + Day7.count_bags(colour, model) end)
+  end
+
+  @doc """
+  Count bags in model for colour
+
+    iex> Day7.count_bags("dotted_black", %{"dotted black" => []})
+    1
+    iex> Day7.count_bags("bright white", %{"bright white" => [{"shiny gold", 3}], "shiny gold" => []})
+    4
+  """
+  def count_bags(colour, model) do
+    sub_colours = Map.get(model, colour, [])
+    1 + Enum.reduce(sub_colours, 0, fn {sub_colour, count}, acc -> acc + (count * count_bags(sub_colour, model)) end)
+  end
+
   @doc """
   Count bags that can eventually contain shiny gold bags
   """

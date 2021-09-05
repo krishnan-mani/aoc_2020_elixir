@@ -30,8 +30,8 @@ defmodule Day7Test do
     end
   end
 
-  describe "count bag colours that can contain shiny gold bags" do
-    test "finds both bags that can directly and indirectly contain shiny gold bags" do
+  describe "parse bag rules with counts" do
+    setup do
       rules = """
       light red bags contain 1 bright white bag, 2 muted yellow bags.
       dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -43,6 +43,45 @@ defmodule Day7Test do
       faded blue bags contain no other bags.
       dotted black bags contain no other bags.
       """
+      %{rules: rules}
+    end
+
+    test "builds up a model of bag colours and number of other bags they contain", %{rules: rules} do
+      model = rules
+              |> String.split("\n")
+              |> Stream.map(&String.trim/1)
+              |> Stream.reject(fn str -> String.length(str) == 0 end)
+              |> Enum.reduce(%{}, fn rule, acc -> Day7.process_bag_counts(rule, acc) end)
+
+      assert model == %{
+               "bright white" => [{"shiny gold", 1}],
+               "dark olive" => [{"faded blue", 3}, {"dotted black", 4}],
+               "dark orange" => [{"bright white", 3}, {"muted yellow", 4}],
+               "dotted black" => [],
+               "faded blue" => [],
+               "light red" => [{"bright white", 1}, {"muted yellow", 2}],
+               "muted yellow" => [{"shiny gold", 2}, {"faded blue", 9}],
+               "shiny gold" => [{"dark olive", 1}, {"vibrant plum", 2}],
+               "vibrant plum" => [{"faded blue", 5}, {"dotted black", 6}]
+             }
+    end
+
+    test "counts bags contained" do
+      model = %{
+        "bright white" => [{"shiny gold", 1}],
+        "dark olive" => [{"faded blue", 3}, {"dotted black", 4}],
+        "dark orange" => [{"bright white", 3}, {"muted yellow", 4}],
+        "dotted black" => [],
+        "faded blue" => [],
+        "light red" => [{"bright white", 1}, {"muted yellow", 2}],
+        "muted yellow" => [{"shiny gold", 2}, {"faded blue", 9}],
+        "shiny gold" => [{"dark olive", 1}, {"vibrant plum", 2}],
+        "vibrant plum" => [{"faded blue", 5}, {"dotted black", 6}]
+      }
+      assert 32 == Day7.count_bags("shiny gold", model) - 1
+    end
+
+    test "finds both bags that can directly and indirectly contain shiny gold bags", %{rules: rules} do
       model = rules
               |> String.split("\n")
               |> Stream.map(&String.trim/1)
@@ -64,4 +103,5 @@ defmodule Day7Test do
       assert Day7.count_container_colours(model) == 4
     end
   end
+
 end
