@@ -1,13 +1,6 @@
 defmodule Day7 do
   @moduledoc false
 
-  @count """
-  Count all bags in model
-  """
-  def total_bag_count(model) do
-    Enum.reduce(model, 0, fn {colour, _}, acc -> acc + Day7.count_bags(colour, model) end)
-  end
-
   @doc """
   Count bags in model for colour
 
