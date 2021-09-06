@@ -50,4 +50,16 @@ defmodule Day8 do
     {String.to_atom(cmd_str), String.to_integer(number_str)}
   end
 
+  @doc """
+  Change one instruction at a time in a chain of instructions to produce several new chain of instructions
+
+    iex> instructions =  [{:acc, 1}, {:jmp, 4}, {:jmp, 2}, {:acc, 2}]
+    iex> Day8.swap_instruction(instructions, :jmp, :nop)
+    [[{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}], [{:acc, 1}, {:jmp, 4}, {:nop, 2}, {:acc, 2}]]
+  """
+  def swap_instruction(_instructions, :jmp, :nop) do
+
+  end
+
+
 end
