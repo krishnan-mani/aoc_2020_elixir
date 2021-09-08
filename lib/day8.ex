@@ -54,12 +54,14 @@ defmodule Day8 do
   Change one instruction at a time in a chain of instructions to produce several new chain of instructions
 
     iex> instructions =  [{:acc, 1}, {:jmp, 4}, {:jmp, 2}, {:acc, 2}]
-    iex> Day8.swap_instruction(instructions, :jmp, :nop)
-    [[{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}], [{:acc, 1}, {:jmp, 4}, {:nop, 2}, {:acc, 2}]]
+    iex> Day8.swap_instruction(instructions, 1, :jmp, :nop)
+    [{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}]
+    iex> Day8.swap_instruction([{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}], 1, :nop, :jmp)
+    instructions
   """
-  def swap_instruction(_instructions, :jmp, :nop) do
-
+  def swap_instruction(instructions, index, original, replacement) do
+    {^original, num} = Enum.at(instructions, index)
+    List.replace_at(instructions, index, {replacement, num})
   end
-
 
 end
