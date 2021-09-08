@@ -21,14 +21,14 @@ defmodule Day8 do
 
     iex> no_loop_instructions = [{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:nop, 1}, {:nop, 2}, {:acc, 2}]
     iex> Day8.process_instructions(no_loop_instructions)
-    3
+    {3, :no_loop}
   """
   def process_instructions(instructions, index \\ 0, acc \\ 0, processed \\ []) do
     if index in processed do
-      acc
+      {acc, :loop}
     else
       case Enum.at(instructions, index, :none) do
-        :none -> acc
+        :none -> {acc, :no_loop}
         instruction -> %{index: next_index, acc: acc} = Day8.process(instruction, index, acc)
                        process_instructions(instructions, next_index, acc, [index | processed])
       end

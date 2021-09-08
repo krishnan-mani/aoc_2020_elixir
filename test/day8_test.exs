@@ -21,7 +21,7 @@ defmodule Day8Test do
                      |> Stream.map(&String.trim/1)
                      |> Stream.reject(fn str -> String.length(str) == 0 end)
                      |> Enum.map(&Day8.parse_instruction/1)
-      assert 5 == Day8.process_instructions(instructions)
+      assert {5, :loop} == Day8.process_instructions(instructions)
     end
   end
 end
