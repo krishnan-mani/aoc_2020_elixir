@@ -22,6 +22,9 @@ defmodule Day8 do
     iex> no_loop_instructions = [{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:nop, 1}, {:nop, 2}, {:acc, 2}]
     iex> Day8.process_instructions(no_loop_instructions)
     {3, :no_loop}
+    iex> loop_instructions = [{:acc, 1}, {:jmp, 4}, {:jmp, 2}, {:nop, 1}, {:nop, 2}, {:jmp, -4}]
+    iex> Day8.process_instructions(loop_instructions)
+    {1, :loop}
   """
   def process_instructions(instructions, index \\ 0, acc \\ 0, processed \\ []) do
     if index in processed do
@@ -56,12 +59,33 @@ defmodule Day8 do
     iex> instructions =  [{:acc, 1}, {:jmp, 4}, {:jmp, 2}, {:acc, 2}]
     iex> Day8.swap_instruction(instructions, 1, :jmp, :nop)
     [{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}]
+    iex> Day8.swap_instruction(instructions, 1, :acc, :nop)
+    [{:acc, 1}, {:jmp, 4}, {:jmp, 2}, {:acc, 2}]
     iex> Day8.swap_instruction([{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}], 1, :nop, :jmp)
     instructions
   """
   def swap_instruction(instructions, index, original, replacement) do
-    {^original, num} = Enum.at(instructions, index)
-    List.replace_at(instructions, index, {replacement, num})
+    {cmd, num} = Enum.at(instructions, index)
+    case cmd do
+      ^original -> List.replace_at(instructions, index, {replacement, num})
+      _ -> instructions
+    end
+  end
+
+  @doc """
+  mutate one instruction to another in a sequence of instructions and check whether it terminates
+
+  """
+  def mutated_terminates?(instructions, index \\ 0, swap_fn, test_fn, original, replacement) do
+    mutated_instructions = swap_fn.(instructions, index, original, replacement)
+    case test_fn.(mutated_instructions) do
+      {_, :loop} when index < length(instructions) ->
+        mutated_terminates?(instructions, index + 1, swap_fn, test_fn, original, replacement)
+      {acc, :no_loop} ->
+        acc
+      _ ->
+        false
+    end
   end
 
 end
