@@ -64,7 +64,7 @@ defmodule Day8 do
     iex> Day8.swap_instruction([{:acc, 1}, {:nop, 4}, {:jmp, 2}, {:acc, 2}], 1, :nop, :jmp)
     instructions
   """
-  def swap_instruction(instructions, index, original, replacement) do
+  def swap_instruction(instructions, index, original, replacement) when index < length(instructions) do
     {cmd, num} = Enum.at(instructions, index)
     case cmd do
       ^original -> List.replace_at(instructions, index, {replacement, num})
@@ -79,12 +79,9 @@ defmodule Day8 do
   def mutated_terminates?(instructions, index \\ 0, swap_fn, test_fn, original, replacement) do
     mutated_instructions = swap_fn.(instructions, index, original, replacement)
     case test_fn.(mutated_instructions) do
-      {_, :loop} when index < length(instructions) ->
-        mutated_terminates?(instructions, index + 1, swap_fn, test_fn, original, replacement)
-      {acc, :no_loop} ->
-        acc
-      _ ->
-        false
+      {_, :loop} when index < (length(instructions) - 1) -> mutated_terminates?(instructions, index + 1, swap_fn, test_fn, original, replacement)
+      {_, :loop} -> false
+      {acc, :no_loop} -> acc
     end
   end
 
