@@ -74,7 +74,6 @@ defmodule Day8 do
 
   @doc """
   mutate one instruction to another in a sequence of instructions and check whether it terminates
-
   """
   def mutated_terminates?(instructions, index \\ 0, swap_fn, test_fn, original, replacement) do
     mutated_instructions = swap_fn.(instructions, index, original, replacement)
