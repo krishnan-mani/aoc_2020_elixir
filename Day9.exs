@@ -1,0 +1,5 @@
+numbers = File.stream!("input/day9.txt")
+          |> Stream.map(&String.trim/1)
+          |> Stream.reject(fn x -> String.length(x) == 0 end)
+          |> Enum.map(&String.to_integer/1)
+IO.puts("First invalid number: #{Day9.first_invalid_number(numbers, 25)}")
