@@ -24,11 +24,11 @@ defmodule Day9 do
     Enum.reduce_while(
       sequence,
       0,
-      fn x, acc ->
+      fn num, acc ->
         precedents = Enum.slice(numbers, acc, sequence_length)
-        case valid?(x, precedents) do
+        case valid?(num, precedents) do
           true -> {:cont, acc + 1}
-          false -> {:halt, x}
+          false -> {:halt, num}
         end
       end
     )
