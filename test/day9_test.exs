@@ -1,8 +1,6 @@
 defmodule Day9Test do
-  use ExUnit.Case
-  @moduletag :capture_log
-
-  #  doctest Day9
+  use ExUnit.Case, async: true
+  doctest Day9
 
   describe "parse numbers" do
     test "gets preamble and sequence" do
@@ -33,7 +31,6 @@ defmodule Day9Test do
                 |> Stream.map(&String.trim/1)
                 |> Stream.reject(fn x -> String.length(x) == 0 end)
                 |> Enum.map(&String.to_integer/1)
-                |> IO.inspect
     end
   end
 
