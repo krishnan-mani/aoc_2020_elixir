@@ -31,6 +31,8 @@ defmodule Day9Test do
                 |> Stream.map(&String.trim/1)
                 |> Stream.reject(fn x -> String.length(x) == 0 end)
                 |> Enum.map(&String.to_integer/1)
+
+      assert 127 == Day9.first_invalid_number(numbers, 5)
     end
   end
 
