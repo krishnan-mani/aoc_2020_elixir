@@ -69,4 +69,28 @@ defmodule Day9 do
     end
   end
 
+  @doc """
+  Find contiguous sequence adding up to sum
+
+    iex> [1, 2, 3, 4] |> Day9.adds_up(3)
+    [1, 2]
+    iex> [1, 2, 3, 4] |> Day9.adds_up(9)
+    [2, 3, 4]
+    iex> [1, 2, 3, 4] |> Day9.adds_up(7)
+    [3, 4]
+    iex> [1, 2, 3, 4] |> Day9.adds_up(12)
+    []
+  """
+  def adds_up(sequence, sum) do
+    Enum.reduce_while(sequence, 0, fn num, acc ->
+      sub_sequence = Enum.slice(sequence, acc..-1//1)
+      case starting_sequence(sub_sequence, sum) do
+        [] when acc < (length(sequence) - 2) -> {:cont, 1 + acc}
+        [] -> {:halt, []}
+        some_list when is_list(some_list) -> {:halt, some_list}
+      end
+    end)
+  end
+
+
 end

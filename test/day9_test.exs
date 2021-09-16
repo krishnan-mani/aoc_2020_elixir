@@ -3,7 +3,7 @@ defmodule Day9Test do
   doctest Day9
 
   describe "parse numbers" do
-    test "gets preamble and sequence" do
+    setup do
       number_strings = """
             35
             20
@@ -31,8 +31,15 @@ defmodule Day9Test do
                 |> Stream.map(&String.trim/1)
                 |> Stream.reject(fn x -> String.length(x) == 0 end)
                 |> Enum.map(&String.to_integer/1)
+      %{numbers: numbers}
+    end
 
+    test "finds first invalid number", %{numbers: numbers} do
       assert 127 == Day9.first_invalid_number(numbers, 5)
+    end
+
+    test "finds sequence that adds up to invalid number", %{numbers: numbers} do
+      assert [15, 25, 47, 40] = Day9.adds_up(numbers, 127)
     end
   end
 
