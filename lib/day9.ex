@@ -34,4 +34,39 @@ defmodule Day9 do
     )
   end
 
+  @doc """
+  Finds the contiguous sequence of numbers starting at the first element,
+  that add up to sum
+
+    iex> [1, 9] |> Day9.starting_sequence(10)
+    [1, 9]
+    iex> [1, 8] |> Day9.starting_sequence(10)
+    []
+    iex> [1, 7, 2] |> Day9.starting_sequence(10)
+    [1, 7, 2]
+    iex> [1, 7, 4] |> Day9.starting_sequence(10)
+    []
+    iex> [1, 2, 3, 4] |> Day9.starting_sequence(10)
+    [1, 2, 3, 4]
+    iex> [1, 2, 3, 4, 5] |> Day9.starting_sequence(10)
+    [1, 2, 3, 4]
+    iex> [1, 2, 3, 4, 5] |> Day9.starting_sequence(15)
+    [1, 2, 3, 4, 5]
+    iex> [1, 2, 3, 5, 4] |> Day9.starting_sequence(10)
+    []
+    iex> [1, 2, 3, 5] |> Day9.starting_sequence(10)
+    []
+    iex> [2, 3, 4] |> Day9.starting_sequence(6)
+    []
+  """
+  def starting_sequence([first, second], sum) when sum == first + second, do: [first, second]
+  def starting_sequence([_first, _second], _sum), do: []
+  def starting_sequence([first, second | _tail], sum) when sum == first + second, do: [first, second]
+  def starting_sequence([first, second | tail], sum) do
+    case starting_sequence([second | tail], sum - first) do
+      [] -> []
+      some_list when is_list(some_list) -> [first | some_list]
+    end
+  end
+
 end
