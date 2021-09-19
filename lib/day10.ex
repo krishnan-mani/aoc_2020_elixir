@@ -60,8 +60,8 @@ defmodule Day10 do
 
   def joltages(adaptors) when is_list(adaptors) do
     combined_adaptors = combine_adaptors(adaptors)
-    device_voltage = 3 + List.last(combined_adaptors)
-    [0] ++ combined_adaptors ++ [device_voltage]
+    device_joltage = 3 + List.last(combined_adaptors)
+    [0] ++ combined_adaptors ++ [device_joltage]
   end
 
 end
