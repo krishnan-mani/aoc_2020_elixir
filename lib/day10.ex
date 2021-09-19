@@ -16,5 +16,21 @@ defmodule Day10 do
     |> Enum.min()
   end
 
+  @doc """
+  Given a bunch of adaptors of different joltages, combine them all based on the constraints
 
+    iex> Day10.combine_adaptors([1, 7, 5, 2])
+    [1, 2, 5, 7]
+  """
+  def combine_adaptors(adaptors, socket_joltage \\ 0) do
+    %{combination: combination} = Enum.reduce(
+      adaptors,
+      %{joltage: socket_joltage, combination: []},
+      fn x, %{joltage: joltage, combination: combination} ->
+        next_joltage = Day10.get_next_adaptor(joltage, adaptors -- combination)
+        %{joltage: next_joltage, combination: List.insert_at(combination, -1, next_joltage)}
+      end
+    )
+    combination
+  end
 end
