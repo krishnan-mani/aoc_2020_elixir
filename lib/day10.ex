@@ -26,11 +26,42 @@ defmodule Day10 do
     %{combination: combination} = Enum.reduce(
       adaptors,
       %{joltage: socket_joltage, combination: []},
-      fn x, %{joltage: joltage, combination: combination} ->
+      fn _x, %{joltage: joltage, combination: combination} ->
         next_joltage = Day10.get_next_adaptor(joltage, adaptors -- combination)
         %{joltage: next_joltage, combination: List.insert_at(combination, -1, next_joltage)}
       end
     )
     combination
   end
+
+  @doc """
+  Calculate difference between successive elements
+
+    iex> Day10.map_differences([1, 2, 5])
+    [1, 3]
+    iex> Day10.map_differences([1, 1, 1])
+    [0, 0]
+  """
+  def map_differences([_n]), do: []
+  def map_differences([x, y]), do: [y - x]
+  def map_differences([x, y | tail]), do: map_differences([x, y]) ++ map_differences([y | tail])
+
+  @doc """
+  Get the frequencies of differences
+
+    iex> Day10.count_differences([1, 2, 4])
+    %{1 => 1, 2 => 1}
+  """
+  def count_differences(numbers) do
+    numbers
+    |> Day10.map_differences()
+    |> Enum.frequencies()
+  end
+
+  def joltages(adaptors) when is_list(adaptors) do
+    combined_adaptors = combine_adaptors(adaptors)
+    device_voltage = 3 + List.last(combined_adaptors)
+    [0] ++ combined_adaptors ++ [device_voltage]
+  end
+
 end

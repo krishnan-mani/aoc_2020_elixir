@@ -29,5 +29,12 @@ defmodule Day10Test do
     test "combine them all per the constraints", %{adaptors: adaptors} do
       assert [1, 4, 5, 6, 7, 10, 11, 12, 15, 16, 19] == Day10.combine_adaptors(adaptors)
     end
+
+    test "count the differences", %{adaptors: adaptors} do
+      assert %{1 => 7, 3 => 5} ==
+               adaptors
+               |> Day10.joltages()
+               |> Day10.count_differences()
+    end
   end
 end
